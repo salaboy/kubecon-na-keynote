@@ -1,0 +1,48 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: environments.salaboy.com
+spec:
+  group: salaboy.com
+  names:
+    kind: Environment
+    plural: environments
+    shortNames:
+      - "env"
+      - "envs"
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.parameters.spidersDatabase
+      name: DB
+      type: boolean
+    - jsonPath: .spec.parameters.cacheEnabled
+      name: CACHE
+      type: boolean
+    - jsonPath: .spec.parameters.secure
+      name: SECURE
+      type: boolean  
+    name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties: 
+              parameters: 
+                type: object
+                properties:
+                  spidersDatabase:
+                    type: boolean
+                  cacheEnabled:
+                    type: boolean  
+                  secure: 
+                    type: boolean   
+                required:   
+            required: 
+            - parameters          
+
+     
+            

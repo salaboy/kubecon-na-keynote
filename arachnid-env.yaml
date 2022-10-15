@@ -1,0 +1,13 @@
+apiVersion: salaboy.com/v1alpha1
+kind: Environment
+metadata:
+  name: arachnid-env
+spec:
+  compositionSelector:
+    matchLabels:
+      type: development
+  parameters: 
+    spidersDatabase: true
+    cacheEnabled: true
+    secure: true
+    
