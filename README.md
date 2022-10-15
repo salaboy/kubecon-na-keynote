@@ -1,21 +1,33 @@
 # Kubecon North America 2022 :: Keynote Demo
 
-In this step-by-step tutorial you will install and configure a set of Open Source projects that enable development teams to create **Environments** on-demand by just creating simple Kubernetes Resources. 
+In this step-by-step tutorial you will install and configure a set of Open Source projects that create an Internal Development Platform (IDP) for a fictisous company. 
 
-The tutorial uses [Crossplane](), the [Crossplane Helm Provider](), [VCluster]() and [Knative Serving]() to enable developers to create and deploy functions into the environments that they create.
+The tutorial's section [Creating a new Environment]() uses [Crossplane](), the [Crossplane Helm Provider]() and [VCluster] to enable developers to request for new environments to do their work. The [Creating and deploying a function]() section uses [Knative Serving]() and [Knative Functions]() to create and deploy functions into these environments. Finally, the [Our function goes to production]() section uses [ArgoCD]() to promote the function that we have created to the production environment without requiring any teams to interact with the production cluster manually. 
 
 You can read more about these projects and how they can be combined to build platforms in the  blog posts titled: **The challenges of building paltforms [1](),[2](),[3]() and [4]()**.
 
 This step-by-step tutorial is divided into 5 sections
 - [Use Case/Story]()
 - [Prerequisites and Installation]()
-- [Creating a new Environment]()
+- [Requesting a new Environment to our Platform]()
 - [Creating and deploying a function]()
 - [Our function goes to production]()
 
 ## Use Case / Story
 
-You work for a company that specialize in providing Rainbows-as-a-Service. The company realized that in order to stay ahead of the competition they need to innovate and created a new team to add a game changing.
+You work for a company that specialize in providing Rainbows-as-a-Service (commonly known as RaaS). The company realized that in order to stay ahead of the competition they need to innovate and created a new team to add a game changing feature.
+
+The team is tasked to add **Spiders** to the rainbows service! 
+The new team is comformed by the best of the best and they decide to call themselves the amazing **Arachnid Team**.
+
+On this tutorial you will work for the **Arachnid Team** and interact with the Rainbows-as-a Service Internal Development Platform (IDP) to request a new Environment to create and deploy a function (called **spiderize**) to implement this game changing feature.
+
+Once the function is tested and working as expected, the platform should pave the way to production. On this tutorial, the platform team will be using ArgoCD to promote changes to the production environment without interacting directly with the production cluster. At the end of this tutorial you should have experienced the following key interactions: 
+- Requesting a new Environment to the Internal Development Platform
+- Creating and deploying a function without writing any Dockerfile or YAML files
+- Promoting the function to production without direct interaction with the Production Cluster
+
+
 
 ## Prerequisites and Installation 
 
@@ -105,7 +117,7 @@ spec:
 EOF
 ```
 
-## Installing CLIs
+### Installing CLIs
 
 On the developer laptop you need to install the following CLIs:
 
@@ -113,7 +125,7 @@ On the developer laptop you need to install the following CLIs:
 - Install the Knative Functions `func` CLI: [https://github.com/knative-sandbox/kn-plugin-func/blob/main/docs/installing_cli.md](https://github.com/knative-sandbox/kn-plugin-func/blob/main/docs/installing_cli.md)
 
 
-## Installing Environment configurations
+### Installing Environment configurations
 
 The Crossplane composition (XR) and the CRD for our `Environment` resource can be found inside the `crossplane` directory
 
@@ -137,6 +149,8 @@ Check that no VCluster was created just yet.
 vcluster list
 ```
 
+## Requesting a new Environment to our Platform
+
 Now let's go ahead and create a new **Arachnid Environment**:
 
 ```
@@ -156,6 +170,14 @@ vcluster list
 Notice the VCluster is there but it shows not Connected, the Helm Provider connected to the VCluster from inside the cluster, but as users we can use the vcluster CLI to connect and interact with our freshly created VCluster 
 
 
+
+We can now create a function and deploy it to our freshly created **Arachnid Environment**.
+
+
+## Creating and deploying a function
+
+Before creating a function, let's make sure that we are connected to our **Arachnid Environment**: 
+
 ```
 vcluster connect arachnid-env --server https://localhost:8443 -- bash
 ```
@@ -165,14 +187,7 @@ or
 vcluster connect arachnid-env --server https://localhost:8443 -- zsh
 ```
 
-
-Now you are interacting with the VCluster, so you can use `kubectl` as usual. 
-
-
-We can now create a function and deploy it to our freshly created **Arachnid Environment**.
-
-
-## Creating and deploying a function
+Now you are interacting with the VCluster, so you can use `kubectl` as usual. But instead of using `kubectl` we will use the [Knative Functions]() CLI to enable our developers to create functions without the need of writing Dockerfiles or YAML files. 
 
 ```
 mkdir spiderize/
