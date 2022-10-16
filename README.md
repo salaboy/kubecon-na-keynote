@@ -14,7 +14,6 @@ This step-by-step tutorial is divided into 5 sections
 - [Our function goes to production]()
 
 
-
 ## Prerequisites and Installation 
 
 This tutorial creates interact with Kubernetes clusters as well as install Helm Charts hence the following tools are needed: 
@@ -23,13 +22,15 @@ This tutorial creates interact with Kubernetes clusters as well as install Helm 
 
 For this demo we created two separate Kubernetes Clusters: one for the Platform which will host development environments and one for Production. while this tutorial is using KinD for simplicity, we encourage people to try the tutorial on real Kubernetes Clusters. [You can always get free credits here](https://github.com/learnk8s/free-kubernetes).
 
-- [Creating the Platform Kubernetes Cluster](creating-a-kind-cluster.md)
-- [Installing Crossplane into the Platform Cluster](installing-crossplane.md)
-- [Installing Knative Serving into the Platform Cluster](installing-knative-serving.md)
 - [Installing Command-line tools](installing-clis.md)
-- [Creating the Production Kubernetes Cluster]()
-- [Installing Knative Serving into the Production Cluster](installing-knative-serving.md)
-- [Installing ArgoCD into the Production Cluster](installing-argocd.md)
+- Platform Cluster & Tools:
+  - [Creating the Platform Kubernetes Cluster](creating-a-kind-cluster.md)
+  - [Installing Crossplane into the Platform Cluster](installing-crossplane.md)
+  - [Installing Knative Serving into the Platform Cluster](installing-knative-serving.md)
+- Production Cluster & Tools:
+  - [Creating the Production Kubernetes Cluster]()
+  - [Installing Knative Serving into the Production Cluster](installing-knative-serving.md)
+  - [Installing ArgoCD into the Production Cluster](installing-argocd.md)
 
 
 ### Configuring our Platform cluster
@@ -80,8 +81,6 @@ kubectl apply -f arachnid-env.yaml
 
 You can now treat your created `Environment` resource as any other Kubernetes resource, you can list them using `kubectl get environments` or even describing them to see more details. 
 
-
-
 Because we are using VCluster you can go back and check if there is now a new VCluster with:
 
 ```
@@ -93,33 +92,57 @@ Notice the VCluster is there but it shows not Connected.
 
 We can now create a function and deploy it to our freshly created **Arachnid Environment**.
 
-
 ## Creating and deploying a function
+
+Now that we have an environment let's write and deploy function to it.
 
 Before creating a function, let's make sure that we are connected to our **Arachnid Environment**: 
 
+On linux with `bash`:
 ```
 vcluster connect arachnid-env --server https://localhost:8443 -- bash
 ```
-or
+or on Mac OSX with `zsh`:
 
 ```
 vcluster connect arachnid-env --server https://localhost:8443 -- zsh
 ```
 
-Now you are interacting with the VCluster, so you can use `kubectl` as usual. But instead of using `kubectl` we will use the [Knative Functions]() CLI to enable our developers to create functions without the need of writing Dockerfiles or YAML files. 
+Now you are connected with the VCluster of your `Environment`, so you can use `kubectl` as usual. But instead of using `kubectl` we will use the [Knative Functions](https://github.com/knative/func) CLI to enable our developers to create functions without the need of writing Dockerfiles or YAML files. 
 
+First let's create a new empty directory for the function:
 ```
 mkdir spiderize/
 cd spiderize/
-
+```
+Now we can use `func create` to scaffold a function using the Go programming language and a template called `spiders` that was defined inside the template repository [https://github.com/salaboy/func](https://github.com/salaboy/func)
+```
 func create -r https://github.com/salaboy/func -l go -t spiders
-
-func deploy -v --registry docker.io/<YOUR DOCKERHUB USER>
-
 ```
 
+Feel free to open the function using your favourite IDE or editor.
+
+You can deploy this function to our development environment by running: 
+
+```
+func deploy -v --registry docker.io/<YOUR DOCKERHUB USER>
+```
+
+Where the `--registry` flag is used to specify where to publish our container image. This is required to make sure that the target cluster can access the function's container image.
+
+Before the command ends it gives you the URL of where the function is running so you can copy the URL and open it in your browser.
+
+Voila! You have just created and deployed a function to the `arachnid-environment`. 
+You are making the Rainbows industry rock again!
+
+
 ## Our function goes to production
+
+The idea is not to connect to the Production Cluster to deploy our function to it. We have configured the Production cluster to use ArgoCD to syncronize the configuration located into a GitHub repository to our Production Cluster. 
+
+To deploy the function that we have just created and deployed to our production environment we just need to send a Pull Request to our Production Environment github repository only with the configuration required to deploy our function. Because Knative Functions are using Knative Serving, we just need to add the Knative Serving Service YAML file to the production environment repository. By sending a Pull Request with this YAML file, we can enable automated tests on the platform to check if the changes are production ready and once they are validated the Pull Request can be merged. Once the changes are merged into the main branch of our repository ArgoCD will sync these configuration changes which causes our function to be deployed and automatically available for our users to interact with. 
+
+
 
 We will now create a separate KinD Cluster to represent our **Production Environment**. This new Cluster will use ArgoCD to promote functions into the cluster. 
 
