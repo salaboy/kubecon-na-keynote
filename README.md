@@ -7,168 +7,88 @@ The tutorial's section [Creating a new Environment]() uses [Crossplane](), the [
 You can read more about these projects and how they can be combined to build platforms in the  blog posts titled: **The challenges of building paltforms [1](),[2](),[3]() and [4]()**.
 
 This step-by-step tutorial is divided into 5 sections
-- [Use Case/Story]()
+- [Use Case/Story](use-case.md)
 - [Prerequisites and Installation]()
-- [Requesting a new Environment to our Platform]()
+- [Requesting a new Environment]()
 - [Creating and deploying a function]()
 - [Our function goes to production]()
-
-## Use Case / Story
-
-You work for a company that specialize in providing Rainbows-as-a-Service (commonly known as RaaS). The company realized that in order to stay ahead of the competition they need to innovate and created a new team to add a game changing feature.
-
-The team is tasked to add **Spiders** to the rainbows service! 
-The new team is comformed by the best of the best and they decide to call themselves the amazing **Arachnid Team**.
-
-On this tutorial you will work for the **Arachnid Team** and interact with the Rainbows-as-a Service Internal Development Platform (IDP) to request a new Environment to create and deploy a function (called **spiderize**) to implement this game changing feature.
-
-Once the function is tested and working as expected, the platform should pave the way to production. On this tutorial, the platform team will be using ArgoCD to promote changes to the production environment without interacting directly with the production cluster. At the end of this tutorial you should have experienced the following key interactions: 
-- Requesting a new Environment to the Internal Development Platform
-- Creating and deploying a function without writing any Dockerfile or YAML files
-- Promoting the function to production without direct interaction with the Production Cluster
 
 
 
 ## Prerequisites and Installation 
 
-This section covers the installation of the following components:
+This tutorial creates interact with Kubernetes clusters as well as install Helm Charts hence the following tools are needed: 
+- [Install `kubectl`](https://kubernetes.io/docs/tasks/tools/)
+- [Install `helm`](https://helm.sh/docs/intro/install/) 
 
-- Creating a Kubernetes Cluster for hosting the platform tools
-- Installing Crossplane and Crossplane Helm Provider
-- Installing Knative Serving
-- Installing Command-line tools: 
-    - VCluster CLI
-    - Knative Functions CLI
+For this demo we created two separate Kubernetes Clusters: one for the Platform which will host development environments and one for Production. while this tutorial is using KinD for simplicity, we encourage people to try the tutorial on real Kubernetes Clusters. [You can always get free credits here](https://github.com/learnk8s/free-kubernetes).
 
-First let's create a Kubernetes Cluster host the platform-wide tools using [KinD]():
+- [Creating the Platform Kubernetes Cluster](creating-a-kind-cluster.md)
+- [Installing Crossplane into the Platform Cluster](installing-crossplane.md)
+- [Installing Knative Serving into the Platform Cluster](installing-knative-serving.md)
+- [Installing Command-line tools](installing-clis.md)
+- [Creating the Production Kubernetes Cluster]()
+- [Installing Knative Serving into the Production Cluster](installing-knative-serving.md)
+- [Installing ArgoCD into the Production Cluster](installing-argocd.md)
 
+
+### Configuring our Platform cluster
+
+For this demo, our platform will enable development teams to request new `Environment`s.
+
+These `Environment`s can be configured differently depending what the teams needs to do. For this demo, we have created a Crossplane Composition that uses VCluster to create one virtual cluster per Development environment requested. This enable the teams with their own isolated cluster to work on features without clashing with other teams work. 
+
+For this to work we need to create the Custom Resource Definition (CRD) that defines the APIs for creating new `Environment`s and the Crossplanae Composition that define the resources that will be created every time that a new `Environment` resource is created. 
+
+Let's apply the Crossplane Composition and our **Environment Custom Resource Definition (CRD)** into the Platform Cluster:
 ```
-cat <<EOF | kind create cluster --name platform --config=-
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  extraPortMappings:
-  - containerPort: 31080 # expose port 31380 of the node to port 80 on the host, later to be use by kourier or contour ingress
-    listenAddress: 127.0.0.1
-    hostPort: 80
-EOF
-```
-
-
-Then let's install [Crossplane]() into it's own namespace using Helm: 
-
-
-```
-
-helm repo add crossplane-stable https://charts.crossplane.io/stable
-helm repo update
-
-helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane --wait
-```
-
-```
-kubectl crossplane install provider crossplane/provider-helm:v0.10.0
-```
-
-We need to get the correct ServiceAccount to create a new ClusterRoleBinding so the Helm Provider can install Charts on our behalf. 
-
-```
-SA=$(kubectl -n crossplane-system get sa -o name | grep provider-helm | sed -e 's|serviceaccount\/|crossplane-system:|g')
-kubectl create clusterrolebinding provider-helm-admin-binding --clusterrole cluster-admin --serviceaccount="${SA}"
-```
-
-```
-kubectl apply -f crossplane/config/helm-provider-config.yaml
-```
-
-Then let's install Knative Serving in the platform cluster too: 
-
-https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#prerequisites
-
-
-## Only for Knative on KinD
-For Knative Magic DNS to work in KinD you need to patch the following ConfigMap:
-
-```
-kubectl patch configmap -n knative-serving config-domain -p "{\"data\": {\"127.0.0.1.sslip.io\": \"\"}}"
-```
-
-and if you installed the `kourier` networking layer you need to create an ingress:
-
-```
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Service
-metadata:
-  name: kourier-ingress
-  namespace: kourier-system
-  labels:
-    networking.knative.dev/ingress-provider: kourier
-spec:
-  type: NodePort
-  selector:
-    app: 3scale-kourier-gateway
-  ports:
-    - name: http2
-      nodePort: 31080
-      port: 80
-      targetPort: 8080
-EOF
-```
-
-### Installing CLIs
-
-On the developer laptop you need to install the following CLIs:
-
-- Install the `vcluster` CLI to connect to the cluster: [https://www.vcluster.com/docs/getting-started/setup](https://www.vcluster.com/docs/getting-started/setup)
-- Install the Knative Functions `func` CLI: [https://github.com/knative-sandbox/kn-plugin-func/blob/main/docs/installing_cli.md](https://github.com/knative-sandbox/kn-plugin-func/blob/main/docs/installing_cli.md)
-
-
-### Installing Environment configurations
-
-The Crossplane composition (XR) and the CRD for our `Environment` resource can be found inside the `crossplane` directory
-
-These files define what needs to be provisioned when a new `Environment` resource is created.
-The composition looks like this: 
-
-![environment-vcluster-composition](environment-vcluster-composition.png)
-
-Notice that we haven't installed anything VCluster specific, but the composition defines that a VCluster will be created for each **Environment** resource by installing the VCluster Helm chart. 
-
-
-Let's apply the Crossplane Composition and our **Environment Custom Resource Definition (CRD)** into the Platform Cluster (host cluster in VCluster terms):
-```
-kubectl apply -f crossplane/composition-devenv.yaml
 kubectl apply -f crossplane/environment-resource-definition.yaml
+kubectl apply -f crossplane/composition-devenv.yaml
 ```
 
-Check that no VCluster was created just yet.
+The Crossplane Composition that we have defined and configured in our Platform Cluster uses the Crossplane Helm Provider to create a new VCluster for every `Environment` with `type: development`. The VCluster will be created inside the Platform Cluster, but it will provide its own isolated Kubernetes API Server for the team to interact with. 
+
+The VCluster created for each development `Environment` is using the Knative Serving Plugin to enable teams to use Knative Serving inside the virtual cluster, but without having Knative Serving installed. The VCluster Knative Serving plugin shares the Knative Serving installation in the host cluster with all the virtual clusters.
+
+## Requesting a new Environment 
+
+First, make sure that you are connected to the `platform` cluster.
+
+Requesting a new `Environment` to the platform is easy, you just need to create a new `Environment` resource like this one: 
 
 ```
-vcluster list
+apiVersion: salaboy.com/v1alpha1
+kind: Environment
+metadata:
+  name: arachnid-env
+spec:
+  compositionSelector:
+    matchLabels:
+      type: development
+  parameters: 
+    spidersDatabase: true
+    cacheEnabled: true
+    secure: true
+    
 ```
 
-## Requesting a new Environment to our Platform
-
-Now let's go ahead and create a new **Arachnid Environment**:
+And send it to the Platform APIs using `kubectl`:
 
 ```
 kubectl apply -f arachnid-env.yaml
 ```
 
-You can now treat your created environment resource as any other Kubernetes resource, you can list them using `kubectl get environments` or even describing them to see more details. 
+You can now treat your created `Environment` resource as any other Kubernetes resource, you can list them using `kubectl get environments` or even describing them to see more details. 
 
 
 
-You can go back and check if there is now a new VCluster with:
+Because we are using VCluster you can go back and check if there is now a new VCluster with:
 
 ```
 vcluster list 
 ```
 
-Notice the VCluster is there but it shows not Connected, the Helm Provider connected to the VCluster from inside the cluster, but as users we can use the vcluster CLI to connect and interact with our freshly created VCluster 
-
+Notice the VCluster is there but it shows not Connected.
 
 
 We can now create a function and deploy it to our freshly created **Arachnid Environment**.
@@ -223,3 +143,5 @@ Then let's install Knative Serving:
 
 https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#prerequisites
 
+
+Now let's install ArgoCD
