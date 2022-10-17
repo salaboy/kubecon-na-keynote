@@ -106,7 +106,7 @@ spec:
   ports:
     - name: http2
       nodePort: 31080
-      port: 81
+      port: 80
       targetPort: 8080
 EOF
 ```
