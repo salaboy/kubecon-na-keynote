@@ -114,4 +114,23 @@ spec:
         - fromFieldPath: metadata.uid
           toFieldPath: metadata.name 
       readinessChecks:
-      - type: None        
+      - type: None
+    - name: conference-chart-vcluster
+      base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        metadata:
+          annotations: 
+            crossplane.io/external-name: conference
+        spec:
+          forProvider:
+            chart:
+              name: rainbows-as-a-service
+              repository: https://salaboy.github.io/helm/
+              version: "v0.1.0"
+            namespace: default
+          providerConfigRef: 
+            name: #patched
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.providerConfigRef.name  

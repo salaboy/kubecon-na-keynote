@@ -127,7 +127,6 @@ Where the `--registry` flag is used to specify where to publish our container im
 Before the command ends it gives you the URL of where the function is running so you can copy the URL and open it in your browser.
 
 
-
 Voila! You have just created and deployed a function to the `arachnid-environment`. 
 You are making the Rainbows industry rock again!
 

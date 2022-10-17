@@ -1,0 +1,4 @@
+Cloud-Native Rainbows as a Service Application
+
+Chart Deployed: {{ .Chart.Name }} - {{ .Chart.Version }}
+Release Name: {{ .Release.Name }}

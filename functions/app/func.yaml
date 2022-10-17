@@ -1,0 +1,23 @@
+specVersion: 0.25.0
+name: app
+namespace: default
+runtime: go
+registry: docker.io/salaboy
+image: docker.io/salaboy/app:latest
+imageDigest: sha256:687bb37b476fc995c82f083e356a47da3fec1f3abb572e0b55a3f40fe4013ac2
+buildpacks:
+- paketo-buildpacks/go-dist
+- ghcr.io/boson-project/go-function-buildpack:tip
+builder: pack
+volumes: []
+buildEnvs: []
+envs: []
+annotations: {}
+options: {}
+labels: []
+healthEndpoints:
+  liveness: /health/liveness
+  readiness: /health/liveness
+created: 2022-10-17T12:58:47.506992+01:00
+invocation:
+  format: http
