@@ -111,26 +111,30 @@ spec:
                 fmt: vc-%s
         - fromFieldPath: metadata.name
           toFieldPath: spec.credentials.secretRef.namespace
-        - fromFieldPath: metadata.uid
-          toFieldPath: metadata.name 
+        - fromFieldPath: metadata.name
+          toFieldPath: metadata.name
       readinessChecks:
       - type: None
-    - name: conference-chart-vcluster
+    - name: app-chart-vcluster
       base:
         apiVersion: helm.crossplane.io/v1beta1
         kind: Release
         metadata:
           annotations: 
-            crossplane.io/external-name: conference
+            crossplane.io/external-name: app
         spec:
           forProvider:
             chart:
               name: rainbows-as-a-service
               repository: https://salaboy.github.io/helm/
-              version: "v0.1.0"
+              version: "0.1.0"
             namespace: default
           providerConfigRef: 
             name: #patched
       patches:
         - fromFieldPath: metadata.name
-          toFieldPath: spec.providerConfigRef.name  
+          toFieldPath: spec.providerConfigRef.name
+      readinessChecks:
+      - type: MatchString
+        fieldPath: status.atProvider.state
+        matchString: deployed    
