@@ -140,5 +140,5 @@ This requires to have a production cluster ready, [you can follow the instructio
 Let's now configure our production environment ArgoCD application: 
 
 ```
-kubectl apply -f argocd/production-env.yaml
+kubectl apply -f argocd/production-env.yaml -n argocd
 ```
