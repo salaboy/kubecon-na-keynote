@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-environment
+spec:
+  destination:
+    name: production
+    namespace: production
+    server: ''
+  source:
+    path: production
+    repoURL: 'https://github.com/salaboy/kubecon-production'
+    targetRevision: HEAD
+  project: default
