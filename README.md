@@ -22,10 +22,9 @@ This tutorial creates interact with Kubernetes clusters as well as install Helm 
 
 For this demo we will create a Kubernetes Clusters to host the Platform tools which  create Development Environments in separate namespaces using VCluster and one namespace for our Production Environment. While this tutorial uses  [KinD](https://kind.sigs.k8s.io/) for simplicity, we encourage people to try the tutorial on real Kubernetes Clusters. 
 
-```
-Note: This tutorial has been tested on [GCP](https://cloud.google.com/gcp) and using separate clusters for the platform and the production environment. [You can always get free credits here](https://github.com/learnk8s/free-kubernetes).
 
-```
+> Note: This tutorial has been tested on [GCP](https://cloud.google.com/gcp)  and using separate clusters for the platform and the production ?environment. [You can always get free credits here](https://github.com/learnk8s/free-kubernetes).
+
 
 - [Installing Command-line tools](installing-clis.md)
 - [Create a Platform Cluster & Install Tools](platform-cluster.md)
