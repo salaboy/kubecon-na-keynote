@@ -129,7 +129,7 @@ Where the `--registry` flag is used to specify where to publish our container im
 
 Before the command ends it gives you the URL of where the function is running so you can copy the URL and open it in your browser. It should look like this: 
 
-[]()
+[http://spiderize-x-default-x-arachnid-env.arachnid-env.127.0.0.1.sslip.io](http://spiderize-x-default-x-arachnid-env.arachnid-env.127.0.0.1.sslip.io)
 
 
 Voila! You have just created and deployed a function to the `arachnid-environment`. 
@@ -144,9 +144,9 @@ To deploy the function that we have just created and deployed to our production 
 
 Because Knative Functions are using Knative Serving, we just need to add the Knative Serving Service YAML file to the production environment repository.
  
-By sending a Pull Request with this YAML file, we can enable automated tests on the platform to check if the changes are production ready and once they are validated the Pull Request can be merged. 
+By sending a Pull Request with this YAML file, we can enable automated tests on the platform to check if the changes are production ready and once they are validated the Pull Request can be merged. [Check this example Pull Request that changes the configuration of the application to use our new function image](https://github.com/salaboy/kubecon-production/pull/24/files). 
 
-Once the changes are merged into the main branch of our repository ArgoCD will sync these configuration changes which causes our function to be deployed and automatically available for our users to interact with. 
+Once the changes are merged into the `main` branch of our repository ArgoCD will sync these configuration changes which causes our function to be deployed and automatically available for our users to interact with. 
 
 We have used the following repository to host our production environment configuration: 
 [https://github.com/salaboy/kubecon-production](https://github.com/salaboy/kubecon-production)
@@ -157,6 +157,12 @@ If you push new configuration changes inside the `/production` directory you can
 
 @TODO: screenshots
 
-Once the function is synced by ArgoCD you should be able to point your browser to [https://spiderize.production.127.0.0.1.sslip.io/](https://spiderize.production.127.0.0.1.sslip.io/)
+Once the function is synced by ArgoCD you should be able to point your browser to [https://app.production.127.0.0.1.sslip.io/](https://app.production.127.0.0.1.sslip.io/) to see the new version of the application up and running! 
+
+Our change made it to production! 
+
+# Resources and Links
+
+TBD
 
 

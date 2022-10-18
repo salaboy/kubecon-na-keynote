@@ -147,7 +147,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 To simplify the demo, we will create a `production` namespace inside our platform cluster. In real life scenarios, it will be recommended to configure a seaprate cluster for sensitive environments. [You can check this guide to connect ArgoCD to an external cluster](production-cluster.md).
 
 
-Let's now configure our production environment ArgoCD application: 
+Let's now configure our production environment ArgoCD application. The following file points to a [GitHub repository](https://github.com/salaboy/kubecon-production) that contains our production environment configurations. Feel free to change and use your own repository and then run: 
 
 ```
 kubectl apply -f argocd/production-env.yaml -n argocd
