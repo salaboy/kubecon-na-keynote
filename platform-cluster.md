@@ -15,6 +15,14 @@ nodes:
 EOF
 ```
 
+## Creating the `production` namespace
+
+You can create the production namespace by running: 
+
+```
+kubectl create ns production
+```
+
 Next we will install Crossplane to provision infrastructure using a declarative approach.
 
 ## Installing Crossplane
@@ -120,13 +128,15 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ```
 
 
-You can access the ArgoCD installation by using `kubectl port-forward`:
+You can access the ArgoCD dashboard by using `kubectl port-forward` (in a separate terminal):
 
 ```
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-And you can get the admin password by running the following command: 
+Then you can point your browser to [http://localhost:8080](http://localhost:8080)
+
+And you can get the `admin` user's password by running the following command: 
 
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
@@ -142,3 +152,7 @@ Let's now configure our production environment ArgoCD application:
 ```
 kubectl apply -f argocd/production-env.yaml -n argocd
 ```
+
+You should  be able to see the `Production Environment` ArgoCD application in the dashboard. Feel free to sync it now and see if the application gets deployed to the production environment. If you are running on KinD, the URL of the application running in the `production` environment should be this one [http://app.production.127.0.0.1.sslip.io](http://app.production.127.0.0.1.sslip.io)
+
+[Now you can get back to the main tutorial to follow the demo steps here](README.md).
