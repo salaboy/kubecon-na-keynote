@@ -155,4 +155,4 @@ kubectl apply -f argocd/production-env.yaml -n argocd
 
 You should  be able to see the `Production Environment` ArgoCD application in the dashboard. Feel free to sync it now and see if the application gets deployed to the production environment. If you are running on KinD, the URL of the application running in the `production` environment should be this one [http://app.production.127.0.0.1.sslip.io](http://app.production.127.0.0.1.sslip.io)
 
-[Now you can get back to the main tutorial to follow the demo steps here](README.md).
+[Now you can get back to the main tutorial to configure our Platform resources](README.md#configuring-our-platform-cluster).
