@@ -105,7 +105,7 @@ or on Mac OSX with `zsh`:
 vcluster connect arachnid-env --server https://localhost:8443 -- zsh
 ```
 
-Now you are connected with the VCluster of your `Environment`, so you can use `kubectl` as usual. But instead of using `kubectl` we will use the [Knative Functions](https://github.com/knative/func) CLI to enable our developers to create functions without the need of writing Dockerfiles or YAML files. 
+Now you are connected with the VCluster of your `Environment`, so you can use `kubectl` as usual (try `kubectl get namespaces` to check that you are in a different cluster). But instead of using `kubectl` we will use the [Knative Functions](https://github.com/knative/func) CLI to enable our developers to create functions without the need of writing Dockerfiles or YAML files. 
 
 First let's create a new empty directory for the function:
 ```
