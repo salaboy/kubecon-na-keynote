@@ -109,8 +109,8 @@ Now you are connected with the VCluster of your `Environment`, so you can use `k
 
 First let's create a new empty directory for the function:
 ```
-mkdir spiderize/
-cd spiderize/
+mkdir functions/spiderize/
+cd functions/spiderize/
 ```
 Now we can use `func create` to scaffold a function using the `Go` programming language and a template called `spiders` that was defined inside the template repository [https://github.com/salaboy/func](https://github.com/salaboy/func)
 ```
