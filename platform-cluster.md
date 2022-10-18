@@ -54,13 +54,11 @@ Let's install Knative Serving in the cluster:
 
 ```
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-crds.yaml
-
-```
-
-```
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml
 
 ```
+
+Installing the networking stack to support advanced traffic management: 
 
 ```
 kubectl apply -f https://github.com/knative/net-kourier/releases/download/knative-v1.7.0/kourier.yaml
@@ -75,6 +73,7 @@ kubectl patch configmap/config-network \
 
 ```
 
+Configuring domain mappings: 
 
 ```
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-default-domain.yaml
@@ -133,9 +132,10 @@ And you can get the admin password by running the following command:
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
-### Configure Production Cluster
+### Configure Production Environment (namespace)
 
-This requires to have a production cluster ready, [you can follow the instructions here to get the production environment up and running](production-cluster.md). 
+To simplify the demo, we will create a `production` namespace inside our platform cluster. In real life scenarios, it will be recommended to configure a seaprate cluster for sensitive environments. [You can check this guide to connect ArgoCD to an external cluster](production-cluster.md).
+
 
 Let's now configure our production environment ArgoCD application: 
 
