@@ -4,7 +4,7 @@ namespace: default
 runtime: go
 registry: docker.io/salaboy
 image: docker.io/salaboy/app:latest
-imageDigest: sha256:16332c68f676df56262bba73f687cc9ad4e3003aabdeae25705cfe9b4264cfd5
+imageDigest: sha256:84d379032f2b4fa52fe7c94f7ed1f01a77cb484907354c7fa95ab43d641ab820
 buildpacks:
 - paketo-buildpacks/go-dist
 - ghcr.io/boson-project/go-function-buildpack:tip
