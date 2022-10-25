@@ -5,7 +5,7 @@ In this step-by-step tutorial, you will install and configure a set of open sour
 ## Who are we?
 
 - [Mauricio "@salaboy" Salatino](https://twitter.com/salaboy): Mauricio is a Staff Engineer for [VMware](https://vmware.com), where he works at the [Knative OSS](https://knative.dev) project as the Knative Functions working group co-lead. Mauricio writes in his blog [salaboy.com](https://salaboy.com) and is also writing a book called [Continuous Delivery for Kubernetes - Manning 2022](http://mng.bz/jjKP) that you get here with a 35% discount by using the the code: **ctwkubecon22**  
-- [Whitney "@wiggitywhitney" Lee](https://twitter.com/wiggitywhitney): 
+- [Whitney Lee](https://twitter.com/wiggitywhitney): Whitney is a Staff Technical Advocate for [VMware Tanzu](https://via.vmw.com/LaUJHx), and she enjoys understanding and using tools in the cloud native landscape. Creative and driven, [Whitney recently pivoted from an art-related career to one in tech](https://blogs.vmware.com/opensource/2022/10/20/inspirational-women-in-open-source-spotlight-on-whitney-lee/). She is active in the open source community, especially around CNCF projects focused on developer productivity. You can catch her lightboard streaming show [⚡️ Enlightning](https://via.vmw.com/EkDb) on Tanzu.TV. And not only does she rock at tech - she literally has toured playing in the band [Mutual Benefit](https://youtu.be/imjD7ogpKCs) on keyboards and vocals. 
 
 
 ## Intro
