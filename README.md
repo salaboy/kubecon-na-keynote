@@ -141,6 +141,13 @@ Once the function is synced by ArgoCD you should be able to point your browser t
 # Resources and Links
 
 - [Continuous Delivery for Kubernetes - Manning 2022](http://mng.bz/jjKP)
+- [⚡️ Enlightning](https://tanzu.vmware.com/developer/tv/enlightning/)
+  - [What is ArgoCD?](https://via.vmw.com/ArgoCD)
+  - [Empower Your Dev Teams with Virtual Clusters!](https://via.vmw.com/VCluster)
+  - [What Are Cloud Native Buildpacks and How Do They Work?](https://via.vmw.com/Buildpacks)
+  - [Crossplane: Control Plane of Control Planes](https://via.vmw.com/Crossplane)
+  - [What Is Knative Serving?](https://via.vmw.com/KnativeServing)
+  - [What is Tekton?](https://via.vmw.com/Tekton)
 - [salaboy.com](https://salaboy.com):
   - **The Challenges of Building Platforms**: 
     - [1/4 Introduction and challenges](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/)
