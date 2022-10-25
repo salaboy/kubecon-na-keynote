@@ -2,6 +2,15 @@
 
 In this step-by-step tutorial, you will install and configure a set of open source projects to create an Internal Development Platform (IDP) for a fictitious company. [You can read more about the use case here](use-case.md).  
 
+## Who are we?
+
+- [Mauricio "@salaboy" Salatino](https://twitter.com/salaboy): Mauricio is a Staff Engineer for [VMware](https://vmware.com), where he works at the [Knative OSS](https://knative.dev) project as the Knative Functions working group co-lead. Mauricio writes in his blog [salaboy.com](https://salaboy.com) and is also writing a book called [Continuous Delivery for Kubernetes for Manning](http://mng.bz/jjKP) that you get here with a 35% discount by using the the code: **ctwkubecon22**  
+- [Whitney "@wiggitywhitney" Lee](https://twitter.com/wiggitywhitney): 
+
+
+
+## Intro
+
 The tutorial section ['Requesting a New Environment'](#requesting-a-new-environment) uses [Crossplane](https://crossplane.io), the [Crossplane Helm Provider](https://github.com/crossplane-contrib/provider-helm) and [VCluster](https://vcluster.com) to enable developers to request new environments in which to do their work. The ['Creating and Deploying a Function'](#creating-and-deploying-a-function) section uses [Knative Serving](https://knative.dev) and [Knative Functions](https://github.com/knative/func) to create and deploy a function into the environment that we created. Finally, the ['Our Function Goes to Production](#our-function-goes-to-production) section uses [ArgoCD](https://argoproj.github.io/cd) to promote the function that we have created to the production environment without requiring any teams to interact with the production cluster manually. 
 
 You can read more about these projects and how they can be combined to build platforms in the  blog posts titled: **The Challenges of Building Platforms [1](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/),[2](https://salaboy.com/2022/10/03/the-challenges-of-platform-building-on-top-of-kubernetes-2-4/),[3](https://salaboy.com/2022/10/17/the-challenges-of-platform-building-on-top-of-kubernetes-3-4/) and [4]()**.
