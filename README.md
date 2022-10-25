@@ -4,7 +4,7 @@ In this step-by-step tutorial, you will install and configure a set of open sour
 
 ## Who are we?
 
-- [Mauricio "@salaboy" Salatino](https://twitter.com/salaboy): Mauricio is a Staff Engineer for [VMware](https://vmware.com), where he works at the [Knative OSS](https://knative.dev) project as the Knative Functions working group co-lead. Mauricio writes in his blog [salaboy.com](https://salaboy.com) and is also writing a book called [Continuous Delivery for Kubernetes for Manning](http://mng.bz/jjKP) that you get here with a 35% discount by using the the code: **ctwkubecon22**  
+- [Mauricio "@salaboy" Salatino](https://twitter.com/salaboy): Mauricio is a Staff Engineer for [VMware](https://vmware.com), where he works at the [Knative OSS](https://knative.dev) project as the Knative Functions working group co-lead. Mauricio writes in his blog [salaboy.com](https://salaboy.com) and is also writing a book called [Continuous Delivery for Kubernetes - Manning 2022](http://mng.bz/jjKP) that you get here with a 35% discount by using the the code: **ctwkubecon22**  
 - [Whitney "@wiggitywhitney" Lee](https://twitter.com/wiggitywhitney): 
 
 
@@ -134,11 +134,14 @@ Our change made it to production!
 
 # Resources and Links
 
-- [salaboy.com](https://salaboy.com)
-  - **The Challenges of Building Platforms** 
+- [Continuous Delivery for Kubernetes - Manning 2022](http://mng.bz/jjKP)
+- [salaboy.com](https://salaboy.com):
+  - **The Challenges of Building Platforms**: 
     - [1/4 Introduction and challenges](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/)
     - [2/4 Platform topologies, multi-cluster and virtual clusters](https://salaboy.com/2022/10/03/the-challenges-of-platform-building-on-top-of-kubernetes-2-4/)
     - [3/4 Extending Kubernetes and higher level abstractions](https://salaboy.com/2022/10/17/the-challenges-of-platform-building-on-top-of-kubernetes-3-4/)
-    - [4/4 Tailored Developer Experiences enabled by the platform]()**
-
-
+    - [4/4 Tailored Developer Experiences enabled by the platform]()
+  - [Crossplane in 2022](https://salaboy.com/2022/08/30/my-thoughts-about-crossplane-in-2022/)
+  - [Using Crossplane and VCluster together to build platforms](https://salaboy.com/2022/08/03/building-platforms-on-top-of-kubernetes-vcluster-and-crossplane/)
+  
+  
