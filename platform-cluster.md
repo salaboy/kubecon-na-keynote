@@ -1,6 +1,6 @@
-# Creating a Platform Clusters and installing tools
+# Creating a Platform Cluster and Installing Tools
 
-First let's create a Kubernetes Cluster host the platform-wide tools using [KinD](https://kind.sigs.k8s.io/):
+First let's use [KinD](https://kind.sigs.k8s.io/) to create a Kubernetes Cluster in which to host the platform-wide tools:
 
 ```
 cat <<EOF | kind create cluster --name platform --config=-
@@ -15,7 +15,7 @@ nodes:
 EOF
 ```
 
-## Creating the `production` namespace
+## Creating the `production` Namespace
 
 You can create the production namespace by running: 
 
@@ -23,11 +23,11 @@ You can create the production namespace by running:
 kubectl create ns production
 ```
 
-Next we will install Crossplane to provision infrastructure using a declarative approach.
+Next we will install Crossplane so that we can provision infrastructure using a declarative approach.
 
 ## Installing Crossplane
 
-Let's install [Crossplane](https://crossplane.io) into it's own namespace using Helm: 
+Let's install [Crossplane](https://crossplane.io) into its own namespace using Helm: 
 
 ```
 
@@ -52,11 +52,11 @@ kubectl create clusterrolebinding provider-helm-admin-binding --clusterrole clus
 kubectl apply -f crossplane/config/helm-provider-config.yaml
 ```
 
-Finally we will enable the paltform with Knative Serving, so we reduce the complexity of deploying our workloads and improve developer experience.
+Finally, we will enable the platform with Knative Serving, so we reduce the complexity of deploying our workloads and improve developer experience.
 
 ## Installing Knative Serving
 
-Let's install Knative Serving in the cluster: 
+Let's install Knative Serving into the cluster: 
 
 [Check this link for full instructions from the official docs](https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#prerequisites)
 
@@ -144,10 +144,10 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 ### Configure Production Environment (namespace)
 
-To simplify the demo, we will create a `production` namespace inside our platform cluster. In real life scenarios, it will be recommended to configure a seaprate cluster for sensitive environments. [You can check this guide to connect ArgoCD to an external cluster](production-cluster.md).
+To simplify the demo, we will create a `production` namespace inside our platform cluster. In real life scenarios, it is recommended to configure a seaprate cluster for sensitive environments. [You can check this guide to connect ArgoCD to an external cluster](production-cluster.md).
 
 
-Let's now configure our production environment ArgoCD application. The following file points to a [GitHub repository](https://github.com/salaboy/kubecon-production) that contains our production environment configurations. Feel free to change and use your own repository and then run: 
+Let's now configure our production environment ArgoCD application. The following file points to a [GitHub repository](https://github.com/salaboy/kubecon-production) that contains our production environment configurations. Feel free to change this to use your own repository and then run: 
 
 ```
 kubectl apply -f argocd/production-env.yaml -n argocd
