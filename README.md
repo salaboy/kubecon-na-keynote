@@ -8,56 +8,19 @@ In this step-by-step tutorial, you will install and configure a set of open sour
 - [Whitney "@wiggitywhitney" Lee](https://twitter.com/wiggitywhitney): 
 
 
-
 ## Intro
 
 The tutorial section ['Requesting a New Environment'](#requesting-a-new-environment) uses [Crossplane](https://crossplane.io), the [Crossplane Helm Provider](https://github.com/crossplane-contrib/provider-helm) and [VCluster](https://vcluster.com) to enable developers to request new environments in which to do their work. The ['Creating and Deploying a Function'](#creating-and-deploying-a-function) section uses [Knative Serving](https://knative.dev) and [Knative Functions](https://github.com/knative/func) to create and deploy a function into the environment that we created. Finally, the ['Our Function Goes to Production](#our-function-goes-to-production) section uses [ArgoCD](https://argoproj.github.io/cd) to promote the function that we have created to the production environment without requiring any teams to interact with the production cluster manually. 
 
 You can read more about these projects and how they can be combined to build platforms in the  blog posts titled: **The Challenges of Building Platforms [1](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/),[2](https://salaboy.com/2022/10/03/the-challenges-of-platform-building-on-top-of-kubernetes-2-4/),[3](https://salaboy.com/2022/10/17/the-challenges-of-platform-building-on-top-of-kubernetes-3-4/) and [4]()**.
 
-This step-by-step tutorial is divided into 4 sections:
-- [Prerequisites and Installation](#prerequisites-and-installation)
+This step-by-step tutorial is divided into 3 sections:
 - [Requesting a New Environment](#requesting-a-new-environment)
 - [Creating and Deploying a Function](#requesting-a-new-environment)
 - [Our Function Goes to Production](#our-function-goes-to-production)
 
+> But before you jump into the demos, you need to make sure that you follow the [Prerequisites and Installation Guide](prerequisites.md).
 
-## Prerequisites and Installation 
-
-This tutorial creates and interacts with Kubernetes clusters, as well as installs Helm Charts. Hence, the following tools are needed: 
-- [Install `kubectl`](https://kubernetes.io/docs/tasks/tools/)
-- [Install `helm`](https://helm.sh/docs/intro/install/) 
-- [Install `docker`](https://docs.docker.com/engine/install/)
-
-For this demo, we will create a Kubernetes cluster to host the platform tools which  create development environments. These tools use VCluster to create development environments in separate namespaces. We will also create one namespace for our Production Environment. For simplicity, this tutorial uses [KinD](https://kind.sigs.k8s.io/), but we encourage you to try the tutorial on a real Kubernetes cluster. 
-
-
-> Note: This tutorial has been tested on [GCP](https://cloud.google.com/gcp) using separate clusters for the platform and the production environment. [You can get free credits here](https://github.com/learnk8s/free-kubernetes).
-
-
-- [Installing Command-Line Tools](installing-clis.md)
-- [Create a Platform Cluster & Install Tools](platform-cluster.md)
-  
-
-### Configuring Our Platform Cluster
-
-For this demo, our platform will enable development teams to request new `Environment`s.
-
-These `Environment`s can each be configured differently depending what the team needs to do. For this demo, we have created a [Crossplane Composition](https://crossplane.io/docs/v1.9/concepts/composition.html) that uses [VCluster](https://www.vcluster.com/) to create one virtual cluster per development environment requested. This enables a team to request their own isolated cluster so that they can work on features without clashing with other teams' work. 
-
-For this to work, we need to create two things: the Custom Resource Definition (CRD) that defines the APIs for creating new `Environment`s, and the Crossplane Composition that defines the resources that will be created every time that a new `Environment` resource is created. 
-
-Let's apply the Crossplane Composition and our **Environment Custom Resource Definition (CRD)** into the Platform Cluster:
-```
-kubectl apply -f crossplane/environment-resource-definition.yaml
-kubectl apply -f crossplane/composition-devenv.yaml
-```
-
-The Crossplane Composition that we have defined and configured in our Platform Cluster uses the Crossplane Helm Provider to create a new VCluster for every `Environment` with `type: development`. The VCluster will be created inside the Platform Cluster, but it will provide its own isolated Kubernetes API Server for the team to interact with. 
-
-The VCluster created for each development `Environment` is using the VCluster Knative Serving Plugin to enable teams to use Knative Serving inside the virtual cluster, but without having Knative Serving installed. The VCluster Knative Serving plugin shares the Knative Serving installation in the host cluster with all of the virtual clusters.
-
-Now we are ready to request environments, deploy our applications/functions, and promote them to production. 
 
 ## Requesting a New Environment 
 
@@ -164,7 +127,7 @@ We recommend that you fork this repository, or create a new one and copy the con
 
 If you push new configuration changes inside the `/production` directory, you can use ArgoCD to sync these changes to the production cluster, without the need of using `kubectl` to the production namespace directly. 
 
-@TODO: screenshots
+
 
 Once the function is synced by ArgoCD you should be able to point your browser to [https://app.production.127.0.0.1.sslip.io/](https://app.production.127.0.0.1.sslip.io/) to see the new version of the application up and running! 
 
