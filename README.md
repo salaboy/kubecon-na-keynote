@@ -110,15 +110,21 @@ You are a trailblazer in the rainbows industry!
 
 ## Our Function Goes to Production
 
-We have configured the production cluster to use ArgoCD to synchronize the configuration located into a GitHub repository to our production namespace. 
+We have configured the production cluster to use [ArgoCD to synchronize the configuration located into a GitHub repository to our production namespace](https://github.com/salaboy/kubecon-na-keynote/blob/main/platform-cluster.md#configure-production-environment-namespace). 
 
-To deploy the function that we have just created to our production environment, we send a pull request to our production environment GitHub repository. This pull request contains the configuration required to deploy our function. 
+![argocd-production-env.png](imgs/argocd-production-env.png)
 
-Because Knative Functions use Knative Serving, we also need to add the Knative Serving Service YAML file to the production environment repository.
+To deploy the function that we have just created to our production environment, we send a pull request to our production environment [GitHub repository](https://github.com/salaboy/kubecon-production). This pull request contains the configuration required to updated our rainbows-as-a-service application. 
  
-By sending a pull request with this YAML file, we can enable automated tests on the platform to check if the changes are production-ready. Once they are validated, the pull request can be merged. [Check this example pull request that changes the configuration of the application to use our new function image](https://github.com/salaboy/kubecon-production/pull/24/files). 
+By sending a pull request with the changes to the [`app.yaml`](https://github.com/salaboy/kubecon-production/blob/main/production/app.yaml) file, we can enable automated tests on the platform to check if the changes are production-ready. Once the changes are validated, the pull request can be merged. 
+
+[Check this example pull request that changes the configuration of the application to use our new function image](https://github.com/salaboy/kubecon-production/pull/24/files). 
+
+![pr.png](imgs/pr.png)
 
 Once the changes are merged into the `main` branch of our repository, ArgoCD will sync these configuration changes. This causes our function to be deployed and automatically available for our users to interact with. 
+
+![pr-changes](imgs/pr-changes.png)
 
 We have used the following repository to host our production environment configuration: 
 [https://github.com/salaboy/kubecon-production](https://github.com/salaboy/kubecon-production)
@@ -127,10 +133,10 @@ We recommend that you fork this repository, or create a new one and copy the con
 
 If you push new configuration changes inside the `/production` directory, you can use ArgoCD to sync these changes to the production cluster, without the need of using `kubectl` to the production namespace directly. 
 
-
 Once the function is synced by ArgoCD you should be able to point your browser to [https://app.production.127.0.0.1.sslip.io/](https://app.production.127.0.0.1.sslip.io/) to see the new version of the application up and running! 
 
-Our change made it to production! 
+**Our change made it to production!**
+
 
 # Resources and Links
 
