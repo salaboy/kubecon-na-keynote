@@ -12,7 +12,7 @@ In this step-by-step tutorial, you will install and configure a set of open sour
 
 The tutorial section ['Requesting a New Environment'](#requesting-a-new-environment) uses [Crossplane](https://crossplane.io), the [Crossplane Helm Provider](https://github.com/crossplane-contrib/provider-helm) and [VCluster](https://vcluster.com) to enable developers to request new environments in which to do their work. The ['Creating and Deploying a Function'](#creating-and-deploying-a-function) section uses [Knative Serving](https://knative.dev) and [Knative Functions](https://github.com/knative/func) to create and deploy a function into the environment that we created. Finally, the ['Our Function Goes to Production](#our-function-goes-to-production) section uses [ArgoCD](https://argoproj.github.io/cd) to promote the function that we have created to the production environment without requiring any teams to interact with the production cluster manually. 
 
-You can read more about these projects and how they can be combined to build platforms in the  blog posts titled: **The Challenges of Building Platforms [1](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/),[2](https://salaboy.com/2022/10/03/the-challenges-of-platform-building-on-top-of-kubernetes-2-4/),[3](https://salaboy.com/2022/10/17/the-challenges-of-platform-building-on-top-of-kubernetes-3-4/) and [4 coming soon]()**.
+You can read more about these projects and how they can be combined to build platforms in the  blog posts titled: **The Challenges of Building Platforms [1](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/), [2](https://salaboy.com/2022/10/03/the-challenges-of-platform-building-on-top-of-kubernetes-2-4/), [3](https://salaboy.com/2022/10/17/the-challenges-of-platform-building-on-top-of-kubernetes-3-4/) and [4 coming soon]()**.
 
 This step-by-step tutorial is divided into 3 sections:
 - [Requesting a New Environment](#requesting-a-new-environment)
@@ -141,6 +141,13 @@ Once the function is synced by ArgoCD you should be able to point your browser t
 # Resources and Links
 
 - [Continuous Delivery for Kubernetes - Manning 2022](http://mng.bz/jjKP)
+- [⚡️ Enlightning](https://tanzu.vmware.com/developer/tv/enlightning/)
+  - [What is ArgoCD?](https://via.vmw.com/ArgoCD)
+  - [Empower Your Dev Teams with Virtual Clusters!](https://via.vmw.com/VCluster)
+  - [What Are Cloud Native Buildpacks and How Do They Work?](https://via.vmw.com/Buildpacks)
+  - [Crossplane: Control Plane of Control Planes](https://via.vmw.com/Crossplane)
+  - [What Is Knative Serving?](https://via.vmw.com/KnativeServing)
+  - [What is Tekton?](https://via.vmw.com/Tekton)
 - [salaboy.com](https://salaboy.com):
   - **The Challenges of Building Platforms**: 
     - [1/4 Introduction and challenges](https://salaboy.com/2022/09/29/the-challenges-of-platform-building-on-top-of-kubernetes-1-4/)
