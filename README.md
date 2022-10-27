@@ -1,5 +1,7 @@
 # Kubecon North America 2022 :: Keynote Demo
 
+![spider-rainbow.png](imgs/spider-rainbow.png)
+
 In this step-by-step tutorial, you will install and configure a set of open source projects to create an Internal Development Platform (IDP) for a fictitious company. [You can read more about the use case here](use-case.md).  
 
 ## Who are we?
